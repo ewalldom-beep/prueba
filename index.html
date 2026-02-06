@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Mi App de Tareas</title>
+    <style>
+        body { font-family: sans-serif; max-width: 500px; margin: 50px auto; }
+        .tarea { border-bottom: 1px solid #ccc; padding: 10px; display: flex; justify-content: space-between; }
+        input { padding: 8px; width: 70%; }
+        button { padding: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Mis Tareas</h1>
+    
+    <input type="text" id="inputTarea" placeholder="Nueva tarea...">
+    <button onclick="agregarTarea()">Agregar</button>
+
+    <div id="listaTareas" style="margin-top: 20px;"></div>
+
+    <script>
+        // Función para cargar tareas al abrir la página
+        async function cargarTareas() {
+            const res = await fetch('/tareas');
+            const tareas = await res.json();
+            const div = document.getElementById('listaTareas');
+            div.innerHTML = ''; // Limpiar lista
+            
+            tareas.forEach(t => {
+                div.innerHTML += `
+                    <div class="tarea">
+                        ${t.titulo} 
+                        <button onclick="borrarTarea(${t.id})">🗑️</button>
+                    </div>`;
+            });
+        }
+
+        // Función para enviar una nueva tarea al backend
+        async function agregarTarea() {
+            const titulo = document.getElementById('inputTarea').value;
+            await fetch('/tareas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titulo })
+            });
+            document.getElementById('inputTarea').value = ''; // Limpiar input
+            cargarTareas(); // Refrescar lista
+        }
+
+        async function borrarTarea(id) {
+            await fetch(`/tareas/${id}`, { method: 'DELETE' });
+            cargarTareas();
+        }
+
+        cargarTareas(); // Ejecutar al cargar la página
+    </script>
+</body>
+</html>
