@@ -1,9 +1,11 @@
+const path = require('path');
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static('public'));
 
 // CONFIGURACIÓN DE SUPABASE
 // Reemplaza estos valores con los que copiaste de Supabase Settings > API
@@ -46,8 +48,9 @@ app.delete('/tareas/:id', async (req, res) => {
     res.json({ mensaje: "Tarea eliminada correctamente" });
 });
 
+app.get('*', (req, res) => { res.sendFile(path.join(__dirname, 'public', 'index.html')); });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor en línea en el puerto ${PORT}`);
 });
-
