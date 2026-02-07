@@ -7,8 +7,8 @@ app.use(express.static('public'));
 
 // CONFIGURACIÓN DE SUPABASE
 // Reemplaza estos valores con los que copiaste de Supabase Settings > API
-const SUPABASE_URL = 'https://tu-proyecto.supabase.co';
-const SUPABASE_KEY = 'tu-llave-anon-larga-aqui';
+const SUPABASE_URL = 'https://manavfxaoxsyzhqbodnn.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_vwKh38eGDCcqNLasW4FWuQ_pKZLCl-A';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 1. Ver todas las tareas (GET)
@@ -50,3 +50,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor en línea en el puerto ${PORT}`);
 });
+
